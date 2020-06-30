@@ -1,8 +1,8 @@
-# 我知道的事件循环（event loop）
+>基础知识重新学习，若有不对欢迎指正，感恩。
 
-> 众所周知，js是一门单线程的语言，作为单线程语言为什么能够实现异步操作呢？
+众所周知，js是一门单线程的语言，作为单线程语言为什么能够实现异步操作呢？
 
-说起线程，就要提进程。一个浏览器应用是有多个进程。
+第一个知识点一个chrome应用是有多个进程。
 
 ![img](https://user-gold-cdn.xitu.io/2019/10/21/16ded5b21bd8abf4?w=790&h=222&f=png&s=76000)
 
@@ -30,7 +30,8 @@
 
 当最开始代码执行到setTimeout之流时（同步任务），会运行对应 事件触发线程、定时器线程、http请求线程  当满足对应条件后产生一个回调函数，把callback推入到事件队列中。当执行了所有执行栈中的任务后, js引擎线程就空闲下来去读取事件队列。根据队列FIFO原则。往执行栈中推入，并开始运行。
 
-![image-20191021164039046](/Users/juanpi/Library/Application Support/typora-user-images/image-20191021164039046.png)
+
+![](https://user-gold-cdn.xitu.io/2020/1/5/16f74d086d534759?w=714&h=481&f=png&s=55814)
 
 ### 什么事宏任务和微任务？
 
@@ -40,20 +41,21 @@
 
 > 宏任务-->渲染-->宏任务-->渲染-->宏任务-->渲染
 
-例子：￼￼
-
-![image-20191021164439748](/Users/juanpi/Library/Application Support/typora-user-images/image-20191021164439748.png)
+例子：
+![](https://user-gold-cdn.xitu.io/2020/1/5/16f74d1e6c964d4d?w=424&h=95&f=png&s=46264)
 
 结果:
 
 <center>只会显示grey，理由:同属于一次宏任务，导致渲染前GUI优化了改动。</center>
+
 例子2:
 
-![image-20191021164612815](/Users/juanpi/Library/Application Support/typora-user-images/image-20191021164612815.png)
+![](https://user-gold-cdn.xitu.io/2020/1/5/16f74d25e72a7bc6?w=473&h=94&f=png&s=34955)
 
 结果：
 
 <center>先blue然后迅速black，理由，属于不用宏任务，导致渲染了两次（但间隔很短）</center>
+
 微任务：在当前宏任务执行完成后 ，渲染完成前，立即执行的任务。
 
 #### 宏任务与微任务的种类
@@ -79,8 +81,7 @@
 注：Promise，process.nextTick都属于微任务。但是同为微任务,在node中的process.nextTick的优先级比promise高。及不遵循FIFO，强行插队。
 
 例子：
-
-![image-20191021165107035](/Users/juanpi/Library/Application Support/typora-user-images/image-20191021165107035.png)
+![](https://user-gold-cdn.xitu.io/2020/1/5/16f74d2f4aad1125?w=310&h=314&f=png&s=35493)
 
 结果：
 
@@ -100,10 +101,7 @@
 
 > 宏任务-->微任务-->渲染-->宏任务-->微任务-->渲染-->宏任务-->微任务-->渲染
 
-![image-20191021165928269](/Users/juanpi/Library/Application Support/typora-user-images/image-20191021165928269.png)
-
-
-
+![](https://user-gold-cdn.xitu.io/2020/1/5/16f74d3d7faadd31?w=682&h=538&f=png&s=61242)
 ### 习题
 
 1.为什么是55555，答案是闭包，那么为什么会产生闭包呢？
@@ -116,7 +114,7 @@ for(var i = 0; i < 5; i++){
 }
 ```
 
-![image-20191021170207723](/Users/juanpi/Library/Application Support/typora-user-images/image-20191021170207723.png)
+![](https://user-gold-cdn.xitu.io/2020/1/5/16f74d469f8eb658?w=332&h=93&f=png&s=11442)
 
 所以，上面代码等价于
 
@@ -158,24 +156,24 @@ function test() {
 那么终极问题来了：
 
 ```javascript
-async function async1() {
-  console.log(1);
-  await async2();
-  console.log(2);
+async function async1() {
+  console.log(1);
+  await async2();
+  console.log(2);
 }
-async function async2() {
-  console.log(3);
+async function async2() {
+  console.log(3);
 }
 console.log(4);
-setTimeout(function() {
-  console.log(5);
-}, 0);
+setTimeout(function() {
+  console.log(5);
+}, 0);
 async1();
-new Promise(function(resolve) {
-  console.log(6);
-  resolve();
-}).then(function() {
-  console.log(7);
+new Promise(function(resolve) {
+  console.log(6);
+  resolve();
+}).then(function() {
+  console.log(7);
 });
 console.log(8);
 ```
@@ -190,3 +188,4 @@ console.log(8);
 + 2
 + 7
 + 5
+
