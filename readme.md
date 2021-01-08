@@ -5,20 +5,25 @@
 ## 基础
 
 - [ ] JavaScript 执行上下文
+
 - [ ] JavaScript 作用域链
-- [ ] JavaScript 闭包是什么和运用场景
-  - [ ] [什么是闭包？(待复习)](./3.JavaScript/闭包.md)
-  - [ ] 应用场景
-- [ ] [JavaScript 原型及原型链（待看书补充）](./3.JavaScript/原型和原型链.md)
-- [ ] JavaScript 继承
+
+  - [ ] 作用域链
+  - [x] [闭包](./3.JavaScript/闭包.md)
+
 - [ ] JavaScript 面向对象编程
-  - [ ] [new（待看书补充）](./3.JavaScript/关于new.md)
+  
+  - [x] [new](./3.JavaScript/关于new.md)
+  - [x] [JavaScript 原型及原型链](./3.JavaScript/原型和原型链.md)
+  
+- [ ] JavaScript 继承
+
 - [ ] JavaScript this 指向和 call apply bind
   - [x] [this 指向](./3.JavaScript/this指向.md)
   - [ ] call apply bind
-- [ ] Event Loop
-  - [x] [介绍一下事件循环](./3.JavaScript/事件循环（event loop）.md)
-  - [ ] 宏任务与微任务
+  
+- [x] [事件循环](./3.JavaScript/事件循环（event loop）.md)
+  
 - [ ] JavaScript 模块化的发展史
 
 ## ES6
