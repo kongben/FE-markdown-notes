@@ -1,6 +1,6 @@
 ## typescript基本用法
 
-### ts的安装
+### 0.ts的安装
 
 #### node的安装
 
@@ -250,3 +250,255 @@ type Lady = { name: string, age: number };
 const objArr:Lady[] = [{name:'adam',age:12},{name:'adam',age:12}]
 ```
 
+### 5.interface接口
+
+除了用类型别名`type`抽象代码，还可以使用`interface`达到同样目的。
+
+```typescript
+interface Lady{
+    name:string,
+    age:number
+}
+const objArr:Lady[] = [{name:'adam',age:12},{name:'adam',age:12}]
+```
+
+##### 接口和类型别名的区别
+
+和类型别名的区别如下：
+
+1. `interface`只能为对象，而`type`可以为其他类型诸如 string。
+
+2. `interface`可以设置非必填项（这个特性导致`interface`比`type`更常用）
+
+   ```typescript
+   interface Lady{
+       name:string,
+       age?:number
+   }
+   const objArr:Lady[] = [{name:'adam',age:12},{name:'adam'}]
+   ```
+
+3. `interface`允许加入任意值
+
+   ```typescript
+   interface Lady{
+       name:string,
+       age?:number
+       [propname:string]:any
+   }
+   const objArr:Lady[] = [{name:'adam',age:12},{name:'adam'},{name:'dd',sex:1}]
+   ```
+
+4. `interface`可以添加方法
+
+   ```typescript
+   interface Lady {
+       name: string,
+       say(): string
+   }
+   const objArr: Lady[] = [{
+       name: 'adam', say() {
+           return '112'
+       }
+   }, {
+       name: 'adam', say() {
+           return '112'
+       }
+   }]
+   ```
+
+### 6.类
+
+#### 基本用法
+
+```typescript
+class Lady {
+    name: string
+    constructor(name: string) {
+        this.name = name
+    }
+    getName(): string {
+        return this.name
+    }
+}
+
+let ab = new Lady('adam')
+
+```
+
+#### 访问类型
+
+```typescript
+class Man{
+    public name:string = 'adam'
+    private age:number =1
+    protected sex:number = 1
+
+    getAge():number{
+        return this.age
+    }
+}
+class Lady extends Man{
+    say(){
+        this.name // adam
+        this.age // error
+        this.sex // 1
+    }
+}
+
+let a = new Man()
+a.name // adam
+a.age // error
+a.sex //error
+```
+
+|          | public | private | Protected |
+| :------: | :----: | :-----: | :-------: |
+| 外部调用 | ✅       | ❌       | ❌ |
+| 子类调用 | ✅ | ❌ | ✅ |
+
+#### 继承
+
+`extends`实现子类与父类的继承。
+
+```typescript
+class Man {
+    name: string
+    constructor(name: string) {
+        this.name = name
+    }
+    getName(): string {
+        return this.name
+    }
+}
+class Lady extends Man {
+    age: number
+    constructor(name: string, age?: number) {
+        super(name); //使用super调用父类构造函数
+        this.age = age | 1
+    }
+}
+let ab = new Lady('adam',23)
+ab.age // 23
+```
+
+#### 重写
+
+子类可以重写父类的方法。
+
+```typescript
+class Man {
+    say(){
+        return 'name'
+    }
+  }
+class Lady extends Man{
+    say(){
+        return 'lady'
+    }
+}
+let a = new Lady()
+a.say() //lady
+```
+
+#### Getter和setter
+
+```typescript
+class Man {
+    constructor(private _age:number){}
+    get age(){
+        return this._age
+    }
+    set age(age:number){
+      this._age=age
+    }
+  }
+  
+  const dajiao = new Man(28)
+  console.log(dajiao.age) // 28
+  dajiao.age=25
+  console.log(dajiao.age) //25
+```
+
+Get和Set分别时类里的属性钩子，当属性被读取和赋值时调用。
+
+类的Static
+
+通过`static`声明的属性和方法，可以不通过`new`来调用，实现静态调用。
+
+```typescript
+class Man {
+    static say(){
+        return 'name'
+    }
+  }
+  
+Man.say() //name
+```
+
+#### 只读属性
+
+使用`readonly`关键词可以将类中属性设为只读，实例化后不可修改。
+
+```typescript
+class Man {
+    public readonly name:string
+    constructor(name:string){
+        this.name = name
+    }
+  }
+
+let a = new Man('adma')
+a.name = 'hah' //error
+```
+
+#### 抽象类
+
+抽象类的作用是规范子类的方法，规定这些方法的调用方式和返回值，在语言层面上保证编译通过与否，编写更具有泛用性的逻辑。
+
+```typescript
+abstract class Animal{
+    abstract say():string
+}
+class Man extends Animal {
+    say(){
+        return 'hah'
+    }
+  }
+class Dog extends Animal{
+    say(){
+        return 'wang wang wang'
+    }
+}
+class Cat extends Animal{
+    say(){
+        return 'miao miao miao'
+    }
+}
+```
+
+#### 联合类型与类型保护（待续）
+
+```typescript
+interface Waiter {
+  anjiao: boolean;
+  say: () => {};
+}
+
+interface Teacher {
+  anjiao: boolean;
+  skill: () => {};
+}
+
+function judgeWho(animal: Waiter | Teacher) {
+  if (animal.anjiao) {
+    (animal as Teacher).skill();
+  }else{
+    (animal as Waiter).say();
+  }
+}
+```
+
+### 7.泛型
+
+## 
