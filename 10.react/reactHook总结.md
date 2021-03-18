@@ -81,3 +81,47 @@ useEffect(()=>{
 ```
 
 > 未来版本可能会自动添加第二个参数
+
+### Context Hook
+
+父子组件传值
+
+父组件 app.tsx
+
+```typescript
+import { createContext, useState } from 'react';
+import ElementC from "./components/ElementC";
+
+export const ValueContext = createContext('');
+
+const App = () => {
+  const [myValue, setValue] = useState('1')
+  const handleClick = () => {
+    setValue(myValue + 1)
+  }
+  return (
+    <ValueContext.Provider value={myValue}>
+      <ElementC />
+      <button onClick={handleClick}>click here</button>
+    </ValueContext.Provider>
+  )
+}
+
+export default App;
+```
+
+子组件 ElementC.tsx
+
+```typescript
+import { useContext } from "react";
+import { ValueContext } from "../App";
+function ElementC() {
+    const user = useContext(ValueContext)
+    return (
+        <div>{ user }</div>
+    )
+}
+
+export default ElementC;
+```
+
